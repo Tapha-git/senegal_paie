@@ -10,7 +10,8 @@ rules when a payroll accounting addon is available in the Odoo stack.
 """,
     "author": "Tapha",
     "website": "https://github.com/Tapha-git",
-    "category": "Accounting/Payroll",
+    "support": "taphaaaly.ml@gmail.com",
+    "category": "Hidden",
     "license": "OPL-1",
     "depends": [
         "l10n_sn_payroll",

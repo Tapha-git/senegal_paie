@@ -1,7 +1,7 @@
 {
-    "name": "Senegal Payroll for Odoo 19",
+    "name": "Senegal Payroll 19",
     "version": "19.0.1.0.0",
-    "summary": "Senegal payroll localization with payroll rules, structures, and contract configuration",
+    "summary": "Senegal payroll localization with salary rules, structures, and company settings",
     "description": """
 Senegal Payroll Localization for Odoo 19
 ========================================
@@ -19,8 +19,12 @@ latest legal, tax, social and accounting requirements before production use.
 """,
     "author": "Tapha",
     "website": "https://github.com/Tapha-git",
+    "support": "taphaaaly.ml@gmail.com",
     "category": "Human Resources/Payroll",
     "license": "OPL-1",
+    "price": 249.0,
+    "currency": "USD",
+    "images": ["static/description/thumbnail.png"],
     "depends": [
         "hr_payroll_community",
     ],
