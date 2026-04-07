@@ -22,7 +22,6 @@ latest legal, tax, social and accounting requirements before production use.
     "category": "Human Resources/Payroll",
     "license": "OPL-1",
     "depends": [
-        "hr_contract",
         "payroll",
     ],
     "data": [
