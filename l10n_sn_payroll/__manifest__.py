@@ -22,7 +22,7 @@ latest legal, tax, social and accounting requirements before production use.
     "category": "Human Resources/Payroll",
     "license": "OPL-1",
     "depends": [
-        "payroll",
+        "hr_payroll_community",
     ],
     "data": [
         "data/hr_payroll_data.xml",

@@ -46,7 +46,7 @@ Technical Notes
 ===============
 
 * Target version: Odoo 19
-* Dependency: ``payroll``
+* Dependency: ``hr_payroll_community``
 * License: ``OPL-1``
 
 Accounting
