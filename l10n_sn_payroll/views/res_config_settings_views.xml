@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form_l10n_sn_payroll" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.l10n.sn.payroll</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="payroll.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='payroll']" position="inside">
+                <block title="Senegal Payroll" id="l10n_sn_payroll_settings">
+                    <setting string="IPRES Employee Rate">
+                        <field name="sn_ipres_employee_rate" />
+                    </setting>
+                    <setting string="IPRES Employer Rate">
+                        <field name="sn_ipres_employer_rate" />
+                    </setting>
+                    <setting string="IPRES Ceiling">
+                        <field name="sn_ipres_ceiling" />
+                    </setting>
+                    <setting string="CSS Employee Rate">
+                        <field name="sn_css_employee_rate" />
+                    </setting>
+                    <setting string="CSS Employer Rate">
+                        <field name="sn_css_employer_rate" />
+                    </setting>
+                    <setting string="CSS Ceiling">
+                        <field name="sn_css_ceiling" />
+                    </setting>
+                    <setting string="Professional Expense Deduction Rate">
+                        <field name="sn_professional_expense_rate" />
+                    </setting>
+                    <setting string="Professional Expense Minimum">
+                        <field name="sn_professional_expense_min" />
+                    </setting>
+                    <setting string="Professional Expense Maximum">
+                        <field name="sn_professional_expense_max" />
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

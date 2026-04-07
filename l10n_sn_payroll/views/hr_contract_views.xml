@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_contract_view_form_l10n_sn_payroll" model="ir.ui.view">
+        <field name="name">hr.contract.view.form.l10n.sn.payroll</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="payroll.hr_contract_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='salary']/field[@name='struct_id']" position="attributes">
+                <attribute name="domain">[('code', '=', 'SN19')]</attribute>
+            </xpath>
+            <xpath expr="//group[@name='salary']" position="after">
+                <group string="Senegal Payroll">
+                    <group>
+                        <field name="sn_tax_parts" />
+                        <field name="sn_seniority_bonus" />
+                        <field name="sn_transport_allowance" />
+                    </group>
+                    <group>
+                        <field name="sn_representation_allowance" />
+                        <field name="sn_other_taxable_allowance" />
+                        <field name="sn_other_nontaxable_allowance" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

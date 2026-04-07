@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="contrib_register_sn_employee" model="hr.contribution.register">
+            <field name="name">Senegal Employee Deductions</field>
+        </record>
+
+        <record id="contrib_register_sn_employer" model="hr.contribution.register">
+            <field name="name">Senegal Employer Contributions</field>
+        </record>
+
+        <record id="category_basic_sn" model="hr.salary.rule.category">
+            <field name="name">Base Salary</field>
+            <field name="code">BASIC</field>
+        </record>
+
+        <record id="category_allowance_sn" model="hr.salary.rule.category">
+            <field name="name">Allowances</field>
+            <field name="code">ALW</field>
+        </record>
+
+        <record id="category_allowance_taxable_sn" model="hr.salary.rule.category">
+            <field name="name">Taxable Allowances</field>
+            <field name="code">ALW_TAX</field>
+            <field name="parent_id" ref="l10n_sn_payroll.category_allowance_sn" />
+        </record>
+
+        <record id="category_allowance_nontaxable_sn" model="hr.salary.rule.category">
+            <field name="name">Non-taxable Allowances</field>
+            <field name="code">ALW_NT</field>
+            <field name="parent_id" ref="l10n_sn_payroll.category_allowance_sn" />
+        </record>
+
+        <record id="category_gross_sn" model="hr.salary.rule.category">
+            <field name="name">Gross Salary</field>
+            <field name="code">GROSS</field>
+        </record>
+
+        <record id="category_deduction_sn" model="hr.salary.rule.category">
+            <field name="name">Employee Deductions</field>
+            <field name="code">DED</field>
+        </record>
+
+        <record id="category_net_sn" model="hr.salary.rule.category">
+            <field name="name">Net Salary</field>
+            <field name="code">NET</field>
+        </record>
+
+        <record id="category_company_sn" model="hr.salary.rule.category">
+            <field name="name">Employer Contributions</field>
+            <field name="code">COMP</field>
+        </record>
+
+        <record id="rule_basic_sn" model="hr.salary.rule">
+            <field name="name">Base Salary</field>
+            <field name="sequence" eval="10" />
+            <field name="code">BASIC</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_basic_sn" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage</field>
+        </record>
+
+        <record id="rule_seniority_bonus_sn" model="hr.salary.rule">
+            <field name="name">Seniority Bonus</field>
+            <field name="sequence" eval="20" />
+            <field name="code">SN_SENIOR</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_allowance_taxable_sn" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.sn_seniority_bonus</field>
+        </record>
+
+        <record id="rule_transport_allowance_sn" model="hr.salary.rule">
+            <field name="name">Transport Allowance</field>
+            <field name="sequence" eval="30" />
+            <field name="code">SN_TRANS</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_allowance_taxable_sn" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.sn_transport_allowance</field>
+        </record>
+
+        <record id="rule_representation_allowance_sn" model="hr.salary.rule">
+            <field name="name">Representation Allowance</field>
+            <field name="sequence" eval="40" />
+            <field name="code">SN_REPR</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_allowance_taxable_sn" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.sn_representation_allowance</field>
+        </record>
+
+        <record id="rule_other_taxable_allowance_sn" model="hr.salary.rule">
+            <field name="name">Other Taxable Allowance</field>
+            <field name="sequence" eval="50" />
+            <field name="code">SN_OTAX</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_allowance_taxable_sn" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.sn_other_taxable_allowance</field>
+        </record>
+
+        <record id="rule_other_nontaxable_allowance_sn" model="hr.salary.rule">
+            <field name="name">Other Non-taxable Allowance</field>
+            <field name="sequence" eval="60" />
+            <field name="code">SN_ONTAX</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_allowance_nontaxable_sn" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.sn_other_nontaxable_allowance</field>
+        </record>
+
+        <record id="rule_gross_sn" model="hr.salary.rule">
+            <field name="name">Gross Salary</field>
+            <field name="sequence" eval="90" />
+            <field name="code">GROSS</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_gross_sn" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+taxable_allowances = (
+    contract.sn_seniority_bonus
+    + contract.sn_transport_allowance
+    + contract.sn_representation_allowance
+    + contract.sn_other_taxable_allowance
+)
+result = contract.wage + taxable_allowances + contract.sn_other_nontaxable_allowance
+            </field>
+        </record>
+
+        <record id="rule_ipres_sal_sn" model="hr.salary.rule">
+            <field name="name">IPRES Employee 5.6%</field>
+            <field name="sequence" eval="110" />
+            <field name="code">IPRES_SAL</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_deduction_sn" />
+            <field name="register_id" ref="l10n_sn_payroll.contrib_register_sn_employee" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+taxable_gross = (
+    contract.wage
+    + contract.sn_seniority_bonus
+    + contract.sn_transport_allowance
+    + contract.sn_representation_allowance
+    + contract.sn_other_taxable_allowance
+)
+ceiling = employee.company_id.sn_ipres_ceiling
+base = min(taxable_gross, ceiling)
+result = -base * (employee.company_id.sn_ipres_employee_rate / 100.0)
+            </field>
+        </record>
+
+        <record id="rule_css_sal_sn" model="hr.salary.rule">
+            <field name="name">CSS Employee 3%</field>
+            <field name="sequence" eval="120" />
+            <field name="code">CSS_SAL</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_deduction_sn" />
+            <field name="register_id" ref="l10n_sn_payroll.contrib_register_sn_employee" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+taxable_gross = (
+    contract.wage
+    + contract.sn_seniority_bonus
+    + contract.sn_transport_allowance
+    + contract.sn_representation_allowance
+    + contract.sn_other_taxable_allowance
+)
+ceiling = employee.company_id.sn_css_ceiling
+base = min(taxable_gross, ceiling)
+result = -base * (employee.company_id.sn_css_employee_rate / 100.0)
+            </field>
+        </record>
+
+        <record id="rule_trimf_sn" model="hr.salary.rule">
+            <field name="name">TRIMF</field>
+            <field name="sequence" eval="130" />
+            <field name="code">TRIMF</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_deduction_sn" />
+            <field name="register_id" ref="l10n_sn_payroll.contrib_register_sn_employee" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+taxable_gross = (
+    contract.wage
+    + contract.sn_seniority_bonus
+    + contract.sn_transport_allowance
+    + contract.sn_representation_allowance
+    + contract.sn_other_taxable_allowance
+)
+if taxable_gross &lt;= 25000:
+    trimf = 0.0
+elif taxable_gross &lt;= 75000:
+    trimf = 900.0
+elif taxable_gross &lt;= 150000:
+    trimf = 1800.0
+elif taxable_gross &lt;= 250000:
+    trimf = 3600.0
+elif taxable_gross &lt;= 400000:
+    trimf = 5400.0
+else:
+    trimf = 7200.0
+result = -trimf
+            </field>
+        </record>
+
+        <record id="rule_ir_sn" model="hr.salary.rule">
+            <field name="name">Income Tax</field>
+            <field name="sequence" eval="140" />
+            <field name="code">IR</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_deduction_sn" />
+            <field name="register_id" ref="l10n_sn_payroll.contrib_register_sn_employee" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+taxable_gross = (
+    contract.wage
+    + contract.sn_seniority_bonus
+    + contract.sn_transport_allowance
+    + contract.sn_representation_allowance
+    + contract.sn_other_taxable_allowance
+)
+employee_social = abs(result_rules.IPRES_SAL.amount) + abs(result_rules.CSS_SAL.amount)
+annual_base = max((taxable_gross - employee_social) * 12.0, 0.0)
+abatement = annual_base * (employee.company_id.sn_professional_expense_rate / 100.0)
+abatement = min(
+    max(abatement, employee.company_id.sn_professional_expense_min),
+    employee.company_id.sn_professional_expense_max,
+)
+parts = contract.sn_tax_parts or 1.0
+quotient = max((annual_base - abatement) / parts, 0.0)
+
+if quotient &lt;= 630000:
+    tax_per_part = 0.0
+elif quotient &lt;= 1500000:
+    tax_per_part = (quotient - 630000.0) * 0.20
+elif quotient &lt;= 4000000:
+    tax_per_part = 174000.0 + (quotient - 1500000.0) * 0.30
+elif quotient &lt;= 8000000:
+    tax_per_part = 924000.0 + (quotient - 4000000.0) * 0.35
+elif quotient &lt;= 13500000:
+    tax_per_part = 2324000.0 + (quotient - 8000000.0) * 0.37
+else:
+    tax_per_part = 4359000.0 + (quotient - 13500000.0) * 0.40
+
+annual_tax = tax_per_part * parts
+result = -(annual_tax / 12.0)
+            </field>
+        </record>
+
+        <record id="rule_ipres_employer_sn" model="hr.salary.rule">
+            <field name="name">IPRES Employer 8.4%</field>
+            <field name="sequence" eval="210" />
+            <field name="code">IPRES_EMP</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_company_sn" />
+            <field name="register_id" ref="l10n_sn_payroll.contrib_register_sn_employer" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+taxable_gross = (
+    contract.wage
+    + contract.sn_seniority_bonus
+    + contract.sn_transport_allowance
+    + contract.sn_representation_allowance
+    + contract.sn_other_taxable_allowance
+)
+ceiling = employee.company_id.sn_ipres_ceiling
+base = min(taxable_gross, ceiling)
+result = -base * (employee.company_id.sn_ipres_employer_rate / 100.0)
+            </field>
+        </record>
+
+        <record id="rule_css_employer_sn" model="hr.salary.rule">
+            <field name="name">CSS Employer 7%</field>
+            <field name="sequence" eval="220" />
+            <field name="code">CSS_EMP</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_company_sn" />
+            <field name="register_id" ref="l10n_sn_payroll.contrib_register_sn_employer" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+taxable_gross = (
+    contract.wage
+    + contract.sn_seniority_bonus
+    + contract.sn_transport_allowance
+    + contract.sn_representation_allowance
+    + contract.sn_other_taxable_allowance
+)
+ceiling = employee.company_id.sn_css_ceiling
+base = min(taxable_gross, ceiling)
+result = -base * (employee.company_id.sn_css_employer_rate / 100.0)
+            </field>
+        </record>
+
+        <record id="rule_net_sn" model="hr.salary.rule">
+            <field name="name">Net Salary</field>
+            <field name="sequence" eval="300" />
+            <field name="code">NET</field>
+            <field name="category_id" ref="l10n_sn_payroll.category_net_sn" />
+            <field name="register_id" ref="l10n_sn_payroll.contrib_register_sn_employee" />
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+gross_salary = categories.GROSS
+employee_deductions = abs(categories.DED)
+result = gross_salary - employee_deductions
+            </field>
+        </record>
+
+        <record id="structure_sn_payroll_19" model="hr.payroll.structure">
+            <field name="name">Senegal Payroll Structure</field>
+            <field name="code">SN19</field>
+            <field name="company_id" ref="base.main_company" />
+            <field
+                name="rule_ids"
+                eval="[(6, 0, [
+                    ref('l10n_sn_payroll.rule_basic_sn'),
+                    ref('l10n_sn_payroll.rule_seniority_bonus_sn'),
+                    ref('l10n_sn_payroll.rule_transport_allowance_sn'),
+                    ref('l10n_sn_payroll.rule_representation_allowance_sn'),
+                    ref('l10n_sn_payroll.rule_other_taxable_allowance_sn'),
+                    ref('l10n_sn_payroll.rule_other_nontaxable_allowance_sn'),
+                    ref('l10n_sn_payroll.rule_gross_sn'),
+                    ref('l10n_sn_payroll.rule_ipres_sal_sn'),
+                    ref('l10n_sn_payroll.rule_css_sal_sn'),
+                    ref('l10n_sn_payroll.rule_trimf_sn'),
+                    ref('l10n_sn_payroll.rule_ir_sn'),
+                    ref('l10n_sn_payroll.rule_ipres_employer_sn'),
+                    ref('l10n_sn_payroll.rule_css_employer_sn'),
+                    ref('l10n_sn_payroll.rule_net_sn')
+                ])]"
+            />
+        </record>
+    </data>
+</odoo>
